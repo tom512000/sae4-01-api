@@ -9,6 +9,7 @@ use Zenstruck\Foundry\ModelFactory;
 final class UserFactory extends ModelFactory
 {
     private UserPasswordHasherInterface $passwordHasher;
+    private \Transliterator $transliterer;
 
     /**
      * Constructeur de la factory.
@@ -17,6 +18,14 @@ final class UserFactory extends ModelFactory
     {
         parent::__construct();
         $this->passwordHasher = $passwordHasher;
+        $this->transliterer = \Transliterator::create('Any-Lower; Latin-ASCII; Lower()');
+    }
+
+    protected function normalizeName(string $name): array|string|null
+    {
+        $name = str_replace('/[^a-z]+/', '-', $name);
+
+        return $this->transliterer->transliterate($name);
     }
 
     /**
@@ -26,11 +35,13 @@ final class UserFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $firstName = self::faker()->firstName();
+        $lastName = self::faker()->lastName();
         return [
             'dateNais' => self::faker()->dateTime,
-            'email' => self::faker()->email(),
-            'firstName' => self::faker()->firstName(),
-            'lastName' => self::faker()->lastName(),
+            'email' => $this->normalizeName($firstName).'.'.$this->normalizeName($lastName).'@'.preg_replace('/[^A-Za-z0-9 ]/', '.', self::faker()->domainName()),
+            'firstName' => $firstName,
+            'lastName' => $lastName,
             'password' => 'test',
             'phone' => self::faker()->phoneNumber(),
             'roles' => [],

@@ -31,30 +31,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center text-center">
-                        <li class="nav-item">
-                            <a class="nav-link fs-5" href="/offre">Offres</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-5" href="/entreprise">Entreprises</a>
-                        </li>
-                        {% if is_granted('IS_AUTHENTICATED') %}
-                            <li class="nav-item dropdown fs-5">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="btn btn-outline-danger dropdown-item" href="/profil">Mon Profil</a>
-                                    </li>
-                                    <li>
-                                        <a class="btn btn-outline-danger dropdown-item" href="/inscription">Mes Inscriptions</a>
-                                    </li>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <li>
-                                            <a class="btn btn-outline-danger dropdown-item" href="/admin">Tableau de bord</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </li>
-                        {% endif %}
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0 ms-auto d-flex flex-row justify-content-center">
                         <li class="nav-item">
@@ -79,18 +55,6 @@
                 <img src="{{ asset('img/logo.png') }}" alt="Logo de EduTech">
                 <div class="footer_1_1">
                     <img src="{{ asset('img/edutech.png') }}" alt="Logo de EduTech"/>
-                </div>
-                <div class="footer_1_2">
-                    <h4>INFOS UTILES</h4>
-                    <p>
-                        <a href="/a-propos">À propos de nous</a>
-                    </p>
-                    <p>
-                        <a href="/conditions-generales-d-utilisation">Conditions d'utilisation</a>
-                    </p>
-                    <p>
-                        <a href="/mentions-legales">Mentions légales</a>
-                    </p>
                 </div>
             </div>
             <div class="footer_2"></div>

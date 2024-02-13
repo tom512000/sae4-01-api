@@ -2,53 +2,101 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use App\Repository\UserRepository;
+use App\State\MeProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity('email')]
+#[ApiResource(
+    operations:[
+        new Get(
+            normalizationContext: ['groups' => ['user_read']]
+        ),
+        new Patch(normalizationContext: ['groups' => ['user_read','user_me']],
+            denormalizationContext: ['groups' => ['user_write']],
+            security: "object == user"),
+        new Get(
+            uriTemplate: '/me',
+            openapiContext: [
+                'summary' => 'Retrieves the connected user',
+                'description' => 'Retrieves the connected user',
+                'responses' => [
+                    '200' => [
+                        'description' => 'connected user resource',
+                        'content' => [
+                            'application/ld+json' => [
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/User.jsonld-User_me_User_read',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            normalizationContext: ['groups' => ['user_me']],
+            security: "is_granted('ROLE_USER')",
+            provider: MeProvider::class
+        ),
+    ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user_read','user_me'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['user_read','user_me','user_write'])]
     private string $firstName;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['user_read','user_me','user_write'])]
     private string $lastName;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['user_read','user_me','user_write'])]
     private string $phone;
 
     #[ORM\Column]
     private int $status;
 
     #[ORM\Column(type: 'date', length: 10)]
+    #[Groups(['user_read','user_me','user_write'])]
     private \DateTimeInterface $dateNais;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['user_me','user_write'])]
     private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
 
     #[ORM\Column]
+    #[Groups(['user_write'])]
     private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Inscrire::class)]
     private Collection $inscrires;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Groups(['user_read','user_me','user_write'])]
     private ?string $lettreMotiv = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Groups(['user_read','user_me','user_write'])]
     private ?string $cv = null;
 
     /**
