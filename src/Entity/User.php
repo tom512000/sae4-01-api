@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
 use App\State\MeProvider;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,7 +23,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations:[
         new Get(
-            normalizationContext: ['groups' => ['user_read']]
+            uriTemplate: '/users/{id}',
+            normalizationContext: ['groups' => ['user_read']],
+            security: "object == user"
+        ),
+        new Delete(
+            uriTemplate: '/users/{id}',
+            security: "object == user",
+        ),
+        new Post(
+            uriTemplate: '/users',
+            normalizationContext: ['groups'=>['user_read']],
+            denormalizationContext: ['groups'=>['user_write']],
         ),
         new Patch(normalizationContext: ['groups' => ['user_read','user_me']],
             denormalizationContext: ['groups' => ['user_write']],
