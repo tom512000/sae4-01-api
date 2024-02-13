@@ -67,7 +67,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse('/');
+        return new RedirectResponse('/api/docs');
     }
 
     /**

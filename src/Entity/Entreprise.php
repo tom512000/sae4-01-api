@@ -2,10 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
+#[ApiResource (order: ['nomEnt' => 'ASC'])]
+#[ApiFilter(OrderFilter::class, properties: ['nomEnt'], arguments: ['orderParameterName' => 'order'])]
+#[ApiFilter(SearchFilter::class, properties: ['nomEnt' => 'partial'])]
 class Entreprise
 {
     #[ORM\Id]
