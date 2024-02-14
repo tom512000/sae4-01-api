@@ -13,13 +13,25 @@
         </Configuration>
         <Configuration>
           <option name="namespace" value="App\Tests" />
-          <option name="path" value="$PROJECT_DIR$/../../r401-bookmarks-api/tests" />
+          <option name="path" value="$USER_HOME$/r401-bookmarks-api/tests" />
         </Configuration>
         <Configuration>
           <option name="namespace" value="App\Tests" />
           <option name="path" value="$PROJECT_DIR$/tests" />
         </Configuration>
         <Configuration>
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
           <option name="path" value="$PROJECT_DIR$/tests" />
         </Configuration>
       </list>
