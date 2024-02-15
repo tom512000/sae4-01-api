@@ -2,40 +2,84 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\OffreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
+#[ApiResource (operations: [
+        new Get(
+            uriTemplate: '/offre/{id}',
+            normalizationContext: ['groups' => ['Offre_detail']],
+            security: "is_granted('ROLE_USER')"
+        ),
+        new Delete(
+            uriTemplate: '/offre/{id}',
+            normalizationContext: ['groups' => ['Offre_read', 'Offre_detail']],
+            security: 'object.getUser() == user'
+        ),
+        new Patch(
+            uriTemplate: '/offre/{id}',
+            normalizationContext: ['groups' => 'Offre_detail', 'Offre_read'],
+            denormalizationContext: ['groups' => ['Offre_write']],
+            security: 'object.getUser() == user'
+        ),
+        new GetCollection(
+            uriTemplate: '/offre',
+            normalizationContext: ['groups' => 'Offre_read'],
+        ),
+        new Post(
+            uriTemplate: '/offre',
+            normalizationContext: ['groups' => 'Offre_read', 'Offre_detail'],
+            denormalizationContext: ['groups' => ['Offre_write']],
+            security: 'object.getUser() == user'
+        ),
+    ],
+)]
 class Offre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['Offre_read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class)]
     #[ORM\JoinColumn(name: 'idEntreprise', referencedColumnName: 'id')]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?Entreprise $entreprise = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?string $nomOffre = null;
 
     #[ORM\Column]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?int $duree = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?string $lieux = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?\DateTimeInterface $jourDeb = null;
 
     #[ORM\Column]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?int $nbPlace = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?string $descrip = null;
 
     #[ORM\OneToMany(mappedBy: 'Offre', targetEntity: Inscrire::class)]
@@ -43,12 +87,15 @@ class Offre
 
     #[ORM\ManyToOne(inversedBy: 'offres')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?Type $Type = null;
 
     #[ORM\Column(length: 64, nullable: true)]
+    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
     private ?string $level = null;
 
     #[ORM\OneToMany(mappedBy: 'offre', targetEntity: SkillDemander::class)]
+    #[Groups(['Offre_detail'])]
     private Collection $skillDemanders;
 
     /**

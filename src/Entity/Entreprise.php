@@ -24,13 +24,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new Delete(
         uriTemplate: '/entreprise/{id}',
         normalizationContext: ['groups' => ['Entreprise_read', 'Entreprise_detail']],
-        security: 'object.getUser() == user'
+        security: "is_granted('ROLE_ADMIN')"
     ),
     new Patch(
         uriTemplate: '/entreprise/{id}',
         normalizationContext: ['groups' => 'Entreprise_detail', 'Entreprise_read'],
         denormalizationContext: ['groups' => ['Entreprise_write']],
-        security: 'object.getUser() == user'
+        security: "is_granted('ROLE_ADMIN')"
     ),
     new GetCollection(
         uriTemplate: '/entreprise',
@@ -40,7 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         uriTemplate: '/entreprise',
         normalizationContext: ['groups' => 'Entreprise_read', 'Entreprise_detail'],
         denormalizationContext: ['groups' => ['Entreprise_write']],
-        security: 'object.getUser() == user'
+        security: "is_granted('ROLE_ADMIN')"
     ),
 ],
     order: ['nomEnt' => 'ASC'])]
@@ -55,23 +55,23 @@ class Entreprise
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
+    #[Groups(['User-inscrire_read', 'Entreprise_read','Entreprise_detail','Entreprise_write'])]
     private ?string $nomEnt = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
+    #[Groups(['User-inscrire_read', 'Entreprise_read','Entreprise_detail','Entreprise_write'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
+    #[Groups(['User-inscrire_read','Entreprise_detail','Entreprise_write'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
+    #[Groups(['Entreprise_detail','Entreprise_write'])]
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
+    #[Groups(['User-inscrire_read', 'Entreprise_read','Entreprise_detail','Entreprise_write'])]
     private ?string $logo = null;
 
     /**
