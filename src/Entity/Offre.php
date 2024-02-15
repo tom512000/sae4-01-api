@@ -55,31 +55,31 @@ class Offre
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class)]
     #[ORM\JoinColumn(name: 'idEntreprise', referencedColumnName: 'id')]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail'])]
     private ?Entreprise $entreprise = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?string $nomOffre = null;
 
     #[ORM\Column]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?int $duree = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?string $lieux = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?\DateTimeInterface $jourDeb = null;
 
     #[ORM\Column]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?int $nbPlace = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?string $descrip = null;
 
     #[ORM\OneToMany(mappedBy: 'Offre', targetEntity: Inscrire::class)]
@@ -87,11 +87,11 @@ class Offre
 
     #[ORM\ManyToOne(inversedBy: 'offres')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail'])]
     private ?Type $Type = null;
 
     #[ORM\Column(length: 64, nullable: true)]
-    #[Groups(['User-inscrire_read','Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
     private ?string $level = null;
 
     #[ORM\OneToMany(mappedBy: 'offre', targetEntity: SkillDemander::class)]

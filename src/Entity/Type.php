@@ -2,23 +2,66 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Link;
 
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
+#[ApiResource (operations: [
+    new Get(
+        uriTemplate: '/Type/{id}',
+        normalizationContext: ['groups' => ['Type_detail']],
+    ),
+    new Delete(
+        uriTemplate: '/Type/{id}',
+        normalizationContext: ['groups' => ['Type_read', 'Type_detail']],
+        security: "is_granted('ROLE_ADMIN')"
+    ),
+    new Patch(
+        uriTemplate: '/Type/{id}',
+        normalizationContext: ['groups' => 'Type_detail', 'Type_read'],
+        denormalizationContext: ['groups' => ['Type_write']],
+        security: "is_granted('ROLE_ADMIN')"
+    ),
+    new GetCollection(
+        uriTemplate: '/Type/{id}/Offre',
+        uriVariables: ['id' => new Link(
+            fromProperty: 'Type',
+            fromClass: Offre::class
+        )],
+        normalizationContext: ['groups' => ['Type_read', 'Offre-Type_read']]
+    ),
+    new Post(
+        uriTemplate: '/Type',
+        normalizationContext: ['groups' => 'Type_read', 'Type_detail'],
+        denormalizationContext: ['groups' => ['Type_write']],
+        security: "is_granted('ROLE_ADMIN')"
+    ),
+],
+)]
 class Type
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['Type_read','Type_detail'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['Type_read','Type_detail','Type_write', 'Offre-Type_read'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'Type', targetEntity: Offre::class)]
+    #[Groups(['Type_detail','Type_write', 'Offre-Type_read'])]
     private Collection $offres;
 
     /**
