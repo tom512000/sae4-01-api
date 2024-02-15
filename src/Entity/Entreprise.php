@@ -55,15 +55,15 @@ class Entreprise
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
     private ?string $nomEnt = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['User-inscrire_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_detail','Entreprise_write'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 128)]
@@ -71,7 +71,7 @@ class Entreprise
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['User-inscrire_read', 'Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
     private ?string $logo = null;
 
     /**

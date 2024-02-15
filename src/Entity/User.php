@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
@@ -61,6 +63,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: "is_granted('ROLE_USER')",
             provider: MeProvider::class
         ),
+        new GetCollection(
+            uriTemplate: '/users/{id}/inscriptions',
+            uriVariables: ['id' => new Link(
+                fromProperty: 'User',
+                fromClass: Inscrire::class
+            )],
+            normalizationContext: ['groups' => ['user_read', 'User-inscrire_read']]
+        ),
     ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -72,15 +82,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['user_read','user_me','user_write'])]
+    #[Groups(['user_read','user_me','user_write', 'User-inscrire_read'])]
     private string $firstName;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['user_read','user_me','user_write'])]
+    #[Groups(['user_read','user_me','user_write', 'User-inscrire_read'])]
     private string $lastName;
 
     #[ORM\Column(length: 20)]
-    #[Groups(['user_read','user_me','user_write'])]
+    #[Groups(['user_read','user_me','user_write', 'User-inscrire_read'])]
     private string $phone;
 
     #[ORM\Column]
@@ -102,6 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Inscrire::class)]
+    #[Groups(['User-inscrire_read'])]
     private Collection $inscrires;
 
     #[ORM\Column(type: 'string', nullable: true)]
