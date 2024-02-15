@@ -6,11 +6,44 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
-#[ApiResource (order: ['nomEnt' => 'ASC'])]
+#[ApiResource (operations: [
+    new Get(
+        uriTemplate: '/entreprise/{id}',
+        security: "is_granted('ROLE_USER')"
+    ),
+    new Delete(
+        uriTemplate: '/entreprise/{id}',
+        normalizationContext: ['groups' => ['Entreprise_read', 'Entreprise_detail']],
+        security: 'object.getUser() == user'
+    ),
+    new Patch(
+        uriTemplate: '/entreprise/{id}',
+        normalizationContext: ['groups' => 'Entreprise_detail', 'Entreprise_read'],
+        denormalizationContext: ['groups' => ['Entreprise_write']],
+        security: 'object.getUser() == user'
+    ),
+    new GetCollection(
+        uriTemplate: '/entreprise',
+        normalizationContext: ['groups' => 'Entreprise_read'],
+    ),
+    new Post(
+        uriTemplate: '/entreprise',
+        normalizationContext: ['groups' => 'Entreprise_read', 'Entreprise_detail'],
+        denormalizationContext: ['groups' => ['Entreprise_write']],
+        security: 'object.getUser() == user'
+    ),
+],
+    order: ['nomEnt' => 'ASC'])]
 #[ApiFilter(OrderFilter::class, properties: ['nomEnt'], arguments: ['orderParameterName' => 'order'])]
 #[ApiFilter(SearchFilter::class, properties: ['nomEnt' => 'partial'])]
 class Entreprise
@@ -18,21 +51,27 @@ class Entreprise
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
     private ?string $nomEnt = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
     private ?string $logo = null;
 
     /**
