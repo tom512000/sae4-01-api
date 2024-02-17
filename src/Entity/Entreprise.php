@@ -9,11 +9,14 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 #[ApiResource (operations: [
@@ -55,23 +58,23 @@ class Entreprise
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write'])]
     private ?string $nomEnt = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_detail', 'Entreprise_write'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_detail', 'Entreprise_write'])]
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write'])]
     private ?string $logo = null;
 
     /**

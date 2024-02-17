@@ -2,20 +2,57 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\SkillRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SkillRepository::class)]
+#[ApiResource (operations: [
+    new Get(
+        uriTemplate: '/Skill/{id}',
+        normalizationContext: ['groups' => ['Skill_detail']],
+    ),
+    new Delete(
+        uriTemplate: '/Skill/{id}',
+        normalizationContext: ['groups' => ['Skill_read', 'Skill_detail']],
+        security: "is_granted('ROLE_ADMIN')"
+    ),
+    new Patch(
+        uriTemplate: '/Skill/{id}',
+        normalizationContext: ['groups' => 'Skill_detail', 'Skill_read'],
+        denormalizationContext: ['groups' => ['Skill_write']],
+        security: "is_granted('ROLE_ADMIN')"
+    ),
+    new GetCollection(
+        normalizationContext: ['groups' => ['Skill_read']]
+    ),
+    new Post(
+        uriTemplate: '/Skill',
+        normalizationContext: ['groups' => 'Skill_read', 'Skill_detail'],
+        denormalizationContext: ['groups' => ['Skill_write']],
+        security: "is_granted('ROLE_ADMIN')"
+    ),
+],
+)]
 class Skill
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['Skill_read','Skill_detail', 'Offre-SkillDemander_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['Skill_read','Skill_detail', 'Offre-SkillDemander_read', 'Skill_write'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'skill', targetEntity: SkillDemander::class)]
