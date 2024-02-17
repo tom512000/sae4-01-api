@@ -19,7 +19,7 @@ use ApiPlatform\Metadata\Link;
 #[ApiResource (operations: [
     new Get(
         uriTemplate: '/Type/{id}',
-        normalizationContext: ['groups' => ['Type_detail']],
+        normalizationContext: ['groups' => ['Type_read','Type_detail']],
     ),
     new Delete(
         uriTemplate: '/Type/{id}',
@@ -53,15 +53,15 @@ class Type
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Type_read','Type_detail'])]
+    #[Groups(['Type_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Type_read','Type_detail','Type_write', 'Offre-Type_read'])]
+    #[Groups(['Type_read', 'Type_write'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'Type', targetEntity: Offre::class)]
-    #[Groups(['Type_detail','Type_write', 'Offre-Type_read'])]
+    #[Groups(['Offre-Type_read'])]
     private Collection $offres;
 
     /**

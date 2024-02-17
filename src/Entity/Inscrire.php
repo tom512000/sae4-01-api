@@ -2,27 +2,55 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\InscrireRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Link;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: InscrireRepository::class)]
+#[ApiResource(
+    operations: [
+        new Post(
+            security: "is_granted('ROLE_USER')"
+        ),
+        new Delete(
+            uriTemplate: '/inscriptions/{id}',
+            security: 'object.getUser() == user'
+        ),
+        new GetCollection(
+            uriTemplate: '/inscriptions',
+            normalizationContext: ['groups' => 'inscrire_read'],
+        ),
+    ]
+)]
+#[UniqueEntity('Offre', 'User')]
 class Inscrire
 {
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'id')]
+    #[Groups(['inscrire_read'])]
     private ?Offre $Offre = null;
 
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'id')]
+    #[Groups(['inscrire_read'])]
     private ?User $User = null;
 
     #[ORM\Column]
+    #[Groups(['inscrire_read','User-inscrire_read'])]
     private ?int $Status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['inscrire_read','User-inscrire_read'])]
     private ?\DateTimeInterface $dateDemande = null;
 
     /**
