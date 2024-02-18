@@ -68,7 +68,7 @@ class Offre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read', 'User-inscrire_read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class)]
@@ -104,7 +104,7 @@ class Offre
 
     #[ORM\ManyToOne(inversedBy: 'offres')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read'])]
     private ?Type $Type = null;
 
     #[ORM\Column(length: 64, nullable: true)]
