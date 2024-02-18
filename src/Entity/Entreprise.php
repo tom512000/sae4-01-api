@@ -9,11 +9,14 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 #[ApiResource (operations: [
@@ -51,28 +54,39 @@ class Entreprise
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['User-inscrire_read', 'Entreprise_read'])]
+    #[Groups(['Entreprise_read', 'Offre-entreprise_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write', 'Offre-entreprise_read'])]
     private ?string $nomEnt = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_detail', 'Entreprise_write'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_detail', 'Entreprise_write'])]
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['Entreprise_read','Entreprise_detail','Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write'])]
     private ?string $logo = null;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Offre::class)]
+    private Collection $offres;
+
+    /**
+     * Constructeur de la classe Entreprise.
+     */
+    public function __construct()
+    {
+        $this->offres = new ArrayCollection();
+    }
 
     /**
      * Obtient l'identifiant unique de l'entreprise.
@@ -188,6 +202,47 @@ class Entreprise
     public function setLogo(string $logo): static
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Obtient la collection des Offres liées à cette Entreprise.
+     *
+     * @return Collection<int, Offre>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    /**
+     * Ajoute une relation Offre à cette Entreprise.
+     *
+     * @return $this
+     */
+    public function addOffre(Offre $offre): static
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Supprime une relation Offre de cette Entreprise.
+     *
+     * @return $this
+     */
+    public function removeOffre(Offre $offre): static
+    {
+        if ($this->offres->removeElement($offre)) {
+            if ($offre->getEntreprise() === $this) {
+                $offre->setEntreprise(null);
+            }
+        }
 
         return $this;
     }

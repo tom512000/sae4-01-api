@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\InscrireRepository;
 use Doctrine\DBAL\Types\Types;
@@ -18,15 +19,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Post(
-            security: "is_granted('ROLE_USER')"
+            normalizationContext: ['groups' => 'inscrire_detail', 'inscrire_read'],
+            denormalizationContext: ['groups' => ['inscrire_write']],
+            security: "is_granted('ROLE_USER') || is_granted('ROLE_ADMIN')",
+        ),
+        new Patch(
+            uriTemplate: '/inscriptions/{id}',
+            normalizationContext: ['groups' => 'inscrire_detail', 'inscrire_read'],
+            denormalizationContext: ['groups' => ['inscrire_write']],
+            security: "is_granted('ROLE_USER') || is_granted('ROLE_ADMIN')"
         ),
         new Delete(
             uriTemplate: '/inscriptions/{id}',
-            security: 'object.getUser() == user'
-        ),
-        new GetCollection(
-            uriTemplate: '/inscriptions',
-            normalizationContext: ['groups' => 'inscrire_read'],
+            security: "object.getUser() == user || is_granted('ROLE_ADMIN')"
         ),
     ]
 )]
@@ -46,11 +51,11 @@ class Inscrire
     private ?User $User = null;
 
     #[ORM\Column]
-    #[Groups(['inscrire_read','User-inscrire_read'])]
+    #[Groups(['inscrire_read', 'inscrire_write'])]
     private ?int $Status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['inscrire_read','User-inscrire_read'])]
+    #[Groups(['inscrire_read', 'inscrire_write'])]
     private ?\DateTimeInterface $dateDemande = null;
 
     /**
