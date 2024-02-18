@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource (operations: [
     new Get(
         uriTemplate: '/Skill/{id}',
-        normalizationContext: ['groups' => ['Skill_detail']],
+        normalizationContext: ['groups' => ['Skill_read','Skill_detail']],
     ),
     new Delete(
         uriTemplate: '/Skill/{id}',
@@ -48,11 +48,11 @@ class Skill
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Skill_read','Skill_detail', 'Offre-SkillDemander_read'])]
+    #[Groups(['Skill_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['Skill_read','Skill_detail', 'Offre-SkillDemander_read', 'Skill_write'])]
+    #[Groups(['Skill_read',  'Skill_write'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'skill', targetEntity: SkillDemander::class)]

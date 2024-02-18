@@ -32,14 +32,6 @@ use ApiPlatform\Metadata\Link;
         denormalizationContext: ['groups' => ['Type_write']],
         security: "is_granted('ROLE_ADMIN')"
     ),
-    new GetCollection(
-        uriTemplate: '/Type/{id}/Offre',
-        uriVariables: ['id' => new Link(
-            fromProperty: 'Type',
-            fromClass: Offre::class
-        )],
-        normalizationContext: ['groups' => ['Type_read', 'Offre-Type_read']]
-    ),
     new Post(
         uriTemplate: '/Type',
         normalizationContext: ['groups' => 'Type_read', 'Type_detail'],
@@ -53,7 +45,7 @@ class Type
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Type_read','Type_detail'])]
+    #[Groups(['Type_read','Type_detail', 'Offre-Type_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
@@ -61,7 +53,7 @@ class Type
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'Type', targetEntity: Offre::class)]
-    #[Groups(['Type_detail','Type_write', 'Offre-Type_read'])]
+    #[Groups(['Type_detail','Type_write'])]
     private Collection $offres;
 
     /**

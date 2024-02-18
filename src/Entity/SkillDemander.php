@@ -26,14 +26,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriTemplate: '/SkillDemander/{id}',
             security: 'object.getUser() == user'
         ),
-        new GetCollection(
-            uriTemplate: '/Offre/{id}/skill',
-            uriVariables: ['id' => new Link(
-                fromProperty: 'skillDemanders',
-                fromClass: Offre::class
-            )],
-            normalizationContext: ['groups' => ['SkillDemander_read', 'Offre-SkillDemander_read']]
-        ),
     ]
 )]
 #[UniqueEntity('skill', 'offre')]

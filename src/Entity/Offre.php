@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\OffreRepository;
@@ -13,13 +14,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Query\AST\TypedExpression;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 #[ApiResource (operations: [
         new Get(
             uriTemplate: '/offre/{id}',
-            normalizationContext: ['groups' => ['Offre_detail']],
+            normalizationContext: ['groups' => ['Offre_read','Offre_detail']],
             security: "is_granted('ROLE_USER')"
         ),
         new Delete(
@@ -43,6 +45,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
             denormalizationContext: ['groups' => ['Offre_write']],
             security: 'object.getUser() == user'
         ),
+        new GetCollection(
+            uriTemplate: '/entreprise/{id}/Offre',
+            uriVariables: ['id' => new Link(
+                fromProperty: 'offres',
+                fromClass: Entreprise::class
+            )],
+            normalizationContext: ['groups' => ['Offre_read', 'Offre-entreprise_read']]
+        ),
+        new GetCollection(
+            uriTemplate: '/entreprise/{id}/Type',
+            uriVariables: ['id' => new Link(
+                fromProperty: 'offres',
+                fromClass: Type::class
+            )],
+            normalizationContext: ['groups' => ['Offre_read', 'Offre-Type_read']]
+        ),
     ],
 )]
 class Offre
@@ -55,31 +73,30 @@ class Offre
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class)]
     #[ORM\JoinColumn(name: 'idEntreprise', referencedColumnName: 'id')]
-    #[Groups(['Offre_read','Offre_detail'])]
     private ?Entreprise $entreprise = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read'])]
     private ?string $nomOffre = null;
 
     #[ORM\Column]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read'])]
     private ?int $duree = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read'])]
     private ?string $lieux = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read'])]
     private ?\DateTimeInterface $jourDeb = null;
 
     #[ORM\Column]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read'])]
     private ?int $nbPlace = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read'])]
     private ?string $descrip = null;
 
     #[ORM\OneToMany(mappedBy: 'Offre', targetEntity: Inscrire::class)]
@@ -91,11 +108,10 @@ class Offre
     private ?Type $Type = null;
 
     #[ORM\Column(length: 64, nullable: true)]
-    #[Groups(['Offre_read','Offre_detail', 'Offre-Type_read'])]
+    #[Groups(['Offre_read','Offre_detail'])]
     private ?string $level = null;
 
     #[ORM\OneToMany(mappedBy: 'offre', targetEntity: SkillDemander::class)]
-    #[Groups(['Offre_detail'])]
     private Collection $skillDemanders;
 
     /**

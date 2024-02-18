@@ -33,14 +33,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriTemplate: '/inscriptions/{id}',
             security: "object.getUser() == user || is_granted('ROLE_ADMIN')"
         ),
-        new GetCollection(
-            uriTemplate: '/users/{id}/inscriptions',
-            uriVariables: ['id' => new Link(
-                fromProperty: 'inscrires',
-                fromClass: User::class
-            )],
-            normalizationContext: ['groups' => ['inscrire_read', 'User-inscrire_read']]
-        ),
     ]
 )]
 #[UniqueEntity('Offre', 'User')]
@@ -49,13 +41,13 @@ class Inscrire
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'id')]
-    #[Groups(['inscrire_read', 'inscrire_write'])]
+    #[Groups(['inscrire_read'])]
     private ?Offre $Offre = null;
 
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'id')]
-    #[Groups(['inscrire_read', 'inscrire_write'])]
+    #[Groups(['inscrire_read'])]
     private ?User $User = null;
 
     #[ORM\Column]
