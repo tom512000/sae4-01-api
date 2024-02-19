@@ -49,7 +49,7 @@ class Type
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Type_read', 'Type_write'])]
+    #[Groups(['Type_read', 'Type_write','User-inscrire_read', 'Offre_read'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'Type', targetEntity: Offre::class)]

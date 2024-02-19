@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             uriTemplate: '/offres/{id}/Skilldemander',
             uriVariables: ['id'=>new Link(fromProperty: 'skillDemanders', fromClass: Offre::class)],
-            normalizationContext: ['groups' => 'SkillDemander_read'],
+            normalizationContext: ['groups' => ['SkillDemander_read','Offre-SkillDemander_read']],
             security: "is_granted('ROLE_USER')",
         ),
         new Post(
@@ -54,7 +54,7 @@ class SkillDemander
 
     #[ORM\ManyToOne(inversedBy: 'skillDemanders')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['SkillDemander_read','SkillDemander_write'])]
+    #[Groups(['SkillDemander_read','SkillDemander_write', 'Offre_detail'])]
     private ?Skill $skill = null;
 
     #[ORM\ManyToOne(inversedBy: 'skillDemanders')]
