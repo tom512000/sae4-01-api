@@ -48,11 +48,11 @@ class Skill
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Skill_read'])]
+    #[Groups(['Skill_read','Offre-SkillDemander_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['Skill_read',  'Skill_write'])]
+    #[Groups(['Skill_read',  'Skill_write','Offre-SkillDemander_read', 'Offre_detail'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'skill', targetEntity: SkillDemander::class)]

@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             uriTemplate: '/users/{id}/inscriptions',
             uriVariables: ['id'=>new Link(fromProperty: 'inscrires', fromClass: User::class)],
-            normalizationContext: ['groups'=>['inscrire_read']]
+            normalizationContext: ['groups'=>['inscrire_read','User-inscrire_read']]
         ),
         new GetCollection(
             uriTemplate: '/inscriptions',
