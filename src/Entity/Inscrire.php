@@ -18,6 +18,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: InscrireRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            uriTemplate: '/users/{id}/inscriptions',
+            uriVariables: ['id'=>new Link(fromProperty: 'inscrires', fromClass: User::class)],
+            normalizationContext: ['groups'=>['inscrire_read']]
+        ),
+        new GetCollection(
+            uriTemplate: '/inscriptions',
+            normalizationContext: ['groups'=>'inscrire_read'],
+        ),
+        new Get(
+            uriTemplate: '/inscriptions/{id}',
+            normalizationContext: ['groups'=>'inscrire_detail', 'inscrire_read'],
+        ),
         new Post(
             normalizationContext: ['groups' => 'inscrire_detail', 'inscrire_read'],
             denormalizationContext: ['groups' => ['inscrire_write']],
@@ -39,12 +52,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Inscrire
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    #[Groups(['rating_read'])]
+    private ?int $id = null;
+
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'id')]
     #[Groups(['inscrire_read'])]
     private ?Offre $Offre = null;
 
-    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'id')]
     #[Groups(['inscrire_read'])]
@@ -57,6 +74,14 @@ class Inscrire
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['inscrire_read', 'inscrire_write'])]
     private ?\DateTimeInterface $dateDemande = null;
+
+    /**
+     * Obtient l'id de l'inscription.
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * Obtient l'offre à laquelle l'utilisateur est inscrit.
