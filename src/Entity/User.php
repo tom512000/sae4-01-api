@@ -24,8 +24,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[UniqueEntity('email')]
 #[ApiResource(
     operations:[
-        new Get(
-            normalizationContext: ['groups' => ['user_read']]
+        new GetCollection(
+            uriTemplate: 'users',
+            normalizationContext: ['groups' => ['user_read']],
         ),
         new Get(
             uriTemplate: '/users/{id}',
@@ -107,6 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Inscrire::class)]
+    #[Groups('user_me')]
     private Collection $inscrires;
 
     #[ORM\Column(type: 'string', nullable: true)]

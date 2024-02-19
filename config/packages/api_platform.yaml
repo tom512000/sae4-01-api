@@ -2,7 +2,11 @@ api_platform:
     title: Hello API Platform
     version: 1.0.0
     formats:
-        jsonld: ['application/ld+json']
+        json: [ 'application/json' ]
+        jsonld: [ 'application/ld+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+        html: [ 'text/html' ]
+        csv: [ 'text/csv' ]
     docs_formats:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
