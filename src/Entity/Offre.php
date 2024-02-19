@@ -20,33 +20,33 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 #[ApiResource (operations: [
         new Get(
-            uriTemplate: '/offre/{id}',
+            uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => ['Offre_read','Offre_detail']],
             security: "is_granted('ROLE_USER')"
         ),
         new Delete(
-            uriTemplate: '/offre/{id}',
+            uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => ['Offre_read', 'Offre_detail']],
             security: 'object.getUser() == user'
         ),
         new Patch(
-            uriTemplate: '/offre/{id}',
+            uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => 'Offre_detail', 'Offre_read'],
             denormalizationContext: ['groups' => ['Offre_write']],
             security: 'object.getUser() == user'
         ),
         new GetCollection(
-            uriTemplate: '/offre',
+            uriTemplate: '/offres',
             normalizationContext: ['groups' => 'Offre_read'],
         ),
         new Post(
-            uriTemplate: '/offre',
+            uriTemplate: '/offres',
             normalizationContext: ['groups' => 'Offre_read', 'Offre_detail'],
             denormalizationContext: ['groups' => ['Offre_write']],
             security: 'object.getUser() == user'
         ),
         new GetCollection(
-            uriTemplate: '/entreprise/{id}/Offre',
+            uriTemplate: '/entreprise/{id}/offres',
             uriVariables: ['id' => new Link(
                 fromProperty: 'offres',
                 fromClass: Entreprise::class

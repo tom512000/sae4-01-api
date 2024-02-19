@@ -17,7 +17,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: SkillDemanderRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            uriTemplate: '/Skilldemander',
+            normalizationContext: ['groups' => 'SkillDemander_read'],
+        ),
+        new Get(
+            uriTemplate: '/Skilldemander/{id}',
+            normalizationContext: ['groups' => 'SkillDemander_read'],
+        ),
+        new GetCollection(
+            uriTemplate: '/offres/{id}/Skilldemander',
+            uriVariables: ['id'=>new Link(fromProperty: 'skillDemanders', fromClass: Offre::class)],
+            normalizationContext: ['groups' => 'SkillDemander_read'],
+            security: "is_granted('ROLE_USER')",
+        ),
         new Post(
+            uriTemplate: '/SkillDemander',
             normalizationContext: ['groups' => 'SkillDemander_read'],
             denormalizationContext: ['groups' => ['SkillDemander_write']],
             security: "is_granted('ROLE_ADMIN')",
@@ -32,16 +47,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class SkillDemander
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    #[Groups(['rating_read'])]
+    private ?int $id = null;
+
     #[ORM\ManyToOne(inversedBy: 'skillDemanders')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['SkillDemander_read','SkillDemander_write'])]
     private ?Skill $skill = null;
 
-    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'skillDemanders')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['SkillDemander_read','SkillDemander_write'])]
     private ?Offre $offre = null;
+
+    /**
+     * Obtient l'id de l'association.
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * Obtient la compétence associée à la demande de compétence.
