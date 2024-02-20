@@ -18,16 +18,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: SkillRepository::class)]
 #[ApiResource (operations: [
     new Get(
-        uriTemplate: '/Skill/{id}',
+        uriTemplate: '/skills/{id}',
         normalizationContext: ['groups' => ['Skill_read','Skill_detail']],
     ),
     new Delete(
-        uriTemplate: '/Skill/{id}',
+        uriTemplate: '/skills/{id}',
         normalizationContext: ['groups' => ['Skill_read', 'Skill_detail']],
         security: "is_granted('ROLE_ADMIN')"
     ),
     new Patch(
-        uriTemplate: '/Skill/{id}',
+        uriTemplate: '/skills/{id}',
         normalizationContext: ['groups' => 'Skill_detail', 'Skill_read'],
         denormalizationContext: ['groups' => ['Skill_write']],
         security: "is_granted('ROLE_ADMIN')"
@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         normalizationContext: ['groups' => ['Skill_read']]
     ),
     new Post(
-        uriTemplate: '/Skill',
+        uriTemplate: '/skills',
         normalizationContext: ['groups' => 'Skill_read', 'Skill_detail'],
         denormalizationContext: ['groups' => ['Skill_write']],
         security: "is_granted('ROLE_ADMIN')"
