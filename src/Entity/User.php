@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\State\MeProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -118,6 +119,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['user_read','user_me','user_write'])]
     private ?string $cv = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user_read','user_me','user_write'])]
+    private ?string $aboutMe = null;
+
+    #[ORM\Column(type: Types::BLOB)]
+    private $avatar = null;
 
     /**
      * Constructeur de la classe User.
@@ -388,6 +396,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $inscrire->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAboutMe(): ?string
+    {
+        return $this->aboutMe;
+    }
+
+    public function setAboutMe(?string $aboutMe): static
+    {
+        $this->aboutMe = $aboutMe;
+
+        return $this;
+    }
+
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar): static
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

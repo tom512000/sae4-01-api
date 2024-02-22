@@ -46,6 +46,8 @@ final class UserFactory extends ModelFactory
             'phone' => self::faker()->phoneNumber(),
             'roles' => [],
             'status' => 1,
+            'aboutMe' => self::faker()->realText(),
+            'avatar' => "https://thispersondoesnotexist.com/"
         ];
     }
 
