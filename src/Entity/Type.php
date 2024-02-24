@@ -18,22 +18,26 @@ use ApiPlatform\Metadata\Link;
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
 #[ApiResource (operations: [
     new Get(
-        uriTemplate: '/Type/{id}',
+        uriTemplate: '/types/{id}',
         normalizationContext: ['groups' => ['Type_read','Type_detail']],
     ),
+    new GetCollection(
+        uriTemplate: '/types',
+        normalizationContext: ['groups' => ['Type_read']],
+    ),
     new Delete(
-        uriTemplate: '/Type/{id}',
+        uriTemplate: '/types/{id}',
         normalizationContext: ['groups' => ['Type_read', 'Type_detail']],
         security: "is_granted('ROLE_ADMIN')"
     ),
     new Patch(
-        uriTemplate: '/Type/{id}',
+        uriTemplate: '/types/{id}',
         normalizationContext: ['groups' => 'Type_detail', 'Type_read'],
         denormalizationContext: ['groups' => ['Type_write']],
         security: "is_granted('ROLE_ADMIN')"
     ),
     new Post(
-        uriTemplate: '/Type',
+        uriTemplate: '/types',
         normalizationContext: ['groups' => 'Type_read', 'Type_detail'],
         denormalizationContext: ['groups' => ['Type_write']],
         security: "is_granted('ROLE_ADMIN')"
@@ -49,7 +53,7 @@ class Type
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Type_read', 'Type_write'])]
+    #[Groups(['Type_read', 'Type_write','User-inscrire_read', 'Offre_read'])]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'Type', targetEntity: Offre::class)]

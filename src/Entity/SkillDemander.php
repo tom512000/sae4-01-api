@@ -17,13 +17,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: SkillDemanderRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            uriTemplate: '/skills-offre',
+            normalizationContext: ['groups' => 'SkillDemander_read'],
+        ),
+        new Get(
+            uriTemplate: '/skills-offre/{id}',
+            normalizationContext: ['groups' => 'SkillDemander_read'],
+        ),
+        new GetCollection(
+            uriTemplate: '/offres/{id}/skills-offre',
+            uriVariables: ['id'=>new Link(fromProperty: 'skillDemanders', fromClass: Offre::class)],
+            normalizationContext: ['groups' => ['SkillDemander_read','Offre-SkillDemander_read']],
+            security: "is_granted('ROLE_USER')",
+        ),
         new Post(
+            uriTemplate: '/skills-offre',
             normalizationContext: ['groups' => 'SkillDemander_read'],
             denormalizationContext: ['groups' => ['SkillDemander_write']],
             security: "is_granted('ROLE_ADMIN')",
         ),
         new Delete(
-            uriTemplate: '/SkillDemander/{id}',
+            uriTemplate: '/skills-offre/{id}',
             security: 'object.getUser() == user'
         ),
     ]
@@ -32,16 +47,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class SkillDemander
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    #[Groups(['rating_read'])]
+    private ?int $id = null;
+
     #[ORM\ManyToOne(inversedBy: 'skillDemanders')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['SkillDemander_read','SkillDemander_write'])]
+    #[Groups(['SkillDemander_read','SkillDemander_write', 'Offre_detail'])]
     private ?Skill $skill = null;
 
-    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'skillDemanders')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['SkillDemander_read','SkillDemander_write'])]
     private ?Offre $offre = null;
+
+    /**
+     * Obtient l'id de l'association.
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * Obtient la compétence associée à la demande de compétence.

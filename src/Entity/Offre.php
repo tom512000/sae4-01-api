@@ -20,33 +20,33 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 #[ApiResource (operations: [
         new Get(
-            uriTemplate: '/offre/{id}',
+            uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => ['Offre_read','Offre_detail']],
             security: "is_granted('ROLE_USER')"
         ),
         new Delete(
-            uriTemplate: '/offre/{id}',
+            uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => ['Offre_read', 'Offre_detail']],
             security: 'object.getUser() == user'
         ),
         new Patch(
-            uriTemplate: '/offre/{id}',
+            uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => 'Offre_detail', 'Offre_read'],
             denormalizationContext: ['groups' => ['Offre_write']],
             security: 'object.getUser() == user'
         ),
         new GetCollection(
-            uriTemplate: '/offre',
+            uriTemplate: '/offres',
             normalizationContext: ['groups' => 'Offre_read'],
         ),
         new Post(
-            uriTemplate: '/offre',
+            uriTemplate: '/offres',
             normalizationContext: ['groups' => 'Offre_read', 'Offre_detail'],
             denormalizationContext: ['groups' => ['Offre_write']],
             security: 'object.getUser() == user'
         ),
         new GetCollection(
-            uriTemplate: '/entreprise/{id}/Offre',
+            uriTemplate: '/entreprise/{id}/offres',
             uriVariables: ['id' => new Link(
                 fromProperty: 'offres',
                 fromClass: Entreprise::class
@@ -68,35 +68,36 @@ class Offre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Offre_read', 'User-inscrire_read'])]
+    #[Groups(['Offre_read', 'User-inscrire_read','User-inscrire_read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class)]
     #[ORM\JoinColumn(name: 'idEntreprise', referencedColumnName: 'id')]
+    #[Groups(['User-inscrire_read', 'Offre_read'])]
     private ?Entreprise $entreprise = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?string $nomOffre = null;
 
     #[ORM\Column]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?int $duree = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?string $lieux = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?\DateTimeInterface $jourDeb = null;
 
     #[ORM\Column]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?int $nbPlace = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?string $descrip = null;
 
     #[ORM\OneToMany(mappedBy: 'Offre', targetEntity: Inscrire::class)]
@@ -104,14 +105,15 @@ class Offre
 
     #[ORM\ManyToOne(inversedBy: 'offres')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['Offre_read'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?Type $Type = null;
 
     #[ORM\Column(length: 64, nullable: true)]
-    #[Groups(['Offre_read','Offre_detail'])]
+    #[Groups(['Offre_read','User-inscrire_read'])]
     private ?string $level = null;
 
     #[ORM\OneToMany(mappedBy: 'offre', targetEntity: SkillDemander::class)]
+    #[Groups(['Offre_detail'])]
     private Collection $skillDemanders;
 
     /**

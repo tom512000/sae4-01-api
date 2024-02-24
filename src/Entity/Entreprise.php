@@ -58,7 +58,7 @@ class Entreprise
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_read', 'Entreprise_write', 'Offre-entreprise_read'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write', 'Offre-entreprise_read', 'User-inscrire_read', 'Offre_read'])]
     private ?string $nomEnt = null;
 
     #[ORM\Column(length: 128)]
@@ -74,7 +74,7 @@ class Entreprise
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['Entreprise_read', 'Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_write', 'User-inscrire_read', 'Offre_read'])]
     private ?string $logo = null;
 
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Offre::class)]

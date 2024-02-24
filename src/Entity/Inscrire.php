@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             uriTemplate: '/users/{id}/inscriptions',
             uriVariables: ['id'=>new Link(fromProperty: 'inscrires', fromClass: User::class)],
-            normalizationContext: ['groups'=>['inscrire_read']]
+            normalizationContext: ['groups'=>['inscrire_read','User-inscrire_read']]
         ),
         new GetCollection(
             uriTemplate: '/inscriptions',
@@ -32,7 +32,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups'=>'inscrire_detail', 'inscrire_read'],
         ),
         new Post(
-            uriTemplate: '/inscriptions',
             normalizationContext: ['groups' => 'inscrire_detail', 'inscrire_read'],
             denormalizationContext: ['groups' => ['inscrire_write']],
             security: "is_granted('ROLE_USER') || is_granted('ROLE_ADMIN')",
