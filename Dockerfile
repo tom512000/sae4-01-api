@@ -1,9 +1,9 @@
 ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.25.3
 
+# Première partie : PHP
 FROM php:${PHP_VERSION}-fpm-alpine AS api_php
 
-# persistent / runtime deps
 RUN apk add --no-cache \
         acl \
         fcgi \
@@ -57,10 +57,12 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]
 
+# Deuxième partie : NGINX
 FROM nginx:${NGINX_VERSION}-alpine AS api_nginx
 COPY default.conf /etc/nginx/conf.d
 WORKDIR /srv/api/public
 
+# Troisième partie : PHP en production
 FROM api_php AS api_php_prod
 ARG APP_ENV=prod
 COPY composer.json composer.lock symfony.lock ./
@@ -84,5 +86,6 @@ composer dump-autoload --classmap-authoritative --no-dev; \
 composer run-script --no-dev post-install-cmd; \
 chmod +x bin/console; sync
 
+# Quatrième partie : NGINX en production
 FROM api_nginx AS api_nginx_prod
 COPY --from=api_php_prod /srv/api/public /srv/api/public

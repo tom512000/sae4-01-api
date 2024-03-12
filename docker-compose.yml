@@ -18,7 +18,7 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/srv/contacts
+      - .:/srv/api
       - ./docker/php/conf.d/dev.ini:/usr/local/etc/php/conf.d/dev.ini
 
   web:
@@ -28,7 +28,7 @@ services:
     depends_on:
       - php
     volumes:
-      - ./public:/srv/contacts/public:ro
+      - ./public:/srv/api/public:ro
     ports:
       - "8080:80"
 
