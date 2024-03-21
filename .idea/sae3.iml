@@ -173,5 +173,6 @@
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="module" module-name="r401-bookmarks-api" />
     <orderEntry type="module" module-name="r401-bookmarks-api" />
+    <orderEntry type="module" module-name="sae4-01-front" />
   </component>
 </module>
