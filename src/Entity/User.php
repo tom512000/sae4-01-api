@@ -65,7 +65,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 ],
             ],
             normalizationContext: ['groups' => ['user_me']],
-            security: "is_granted('ROLE_USER')",
             provider: MeProvider::class
         ),
     ]
