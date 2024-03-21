@@ -28,7 +28,6 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
         new Get(
             uriTemplate: '/offres/{id}',
             normalizationContext: ['groups' => ['Offre_read','Offre_detail']],
-            security: "is_granted('ROLE_USER')"
         ),
         new Delete(
             uriTemplate: '/offres/{id}',
@@ -60,7 +59,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
             normalizationContext: ['groups' => ['Offre_read', 'Offre-entreprise_read']]
         ),
         new GetCollection(
-            uriTemplate: '/entreprise/{id}/Type',
+            uriTemplate: '/Type/{id}/offres',
             uriVariables: ['id' => new Link(
                 fromProperty: 'offres',
                 fromClass: Type::class
@@ -77,7 +76,7 @@ class Offre
     #[Groups(['Offre_read', 'User-inscrire_read','User-inscrire_read'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Entreprise::class)]
+    #[ORM\ManyToOne(targetEntity: Entreprise::class, inversedBy: 'offres')]
     #[ORM\JoinColumn(name: 'idEntreprise', referencedColumnName: 'id')]
     #[Groups(['User-inscrire_read', 'Offre_read'])]
     private ?Entreprise $entreprise = null;

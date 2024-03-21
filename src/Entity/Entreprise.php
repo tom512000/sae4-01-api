@@ -22,7 +22,6 @@ use Doctrine\Common\Collections\Collection;
 #[ApiResource (operations: [
     new Get(
         uriTemplate: '/entreprise/{id}',
-        security: "is_granted('ROLE_USER')"
     ),
     new Delete(
         uriTemplate: '/entreprise/{id}',

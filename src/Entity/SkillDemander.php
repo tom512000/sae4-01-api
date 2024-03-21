@@ -29,7 +29,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriTemplate: '/offres/{id}/skills-offre',
             uriVariables: ['id'=>new Link(fromProperty: 'skillDemanders', fromClass: Offre::class)],
             normalizationContext: ['groups' => ['SkillDemander_read','Offre-SkillDemander_read']],
-            security: "is_granted('ROLE_USER')",
         ),
         new Post(
             uriTemplate: '/skills-offre',
