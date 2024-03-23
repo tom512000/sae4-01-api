@@ -102,6 +102,26 @@
           <option name="namespace" value="App\Tests" />
           <option name="path" value="$PROJECT_DIR$/tests" />
         </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
+        <Configuration>
+          <option name="namespace" value="App\Tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
+        </Configuration>
       </list>
     </option>
   </component>

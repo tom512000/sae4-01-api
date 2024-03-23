@@ -167,10 +167,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="symfony-contacts" />
-    <orderEntry type="library" name="jquery-3.5.1.slim" level="application" />
-    <orderEntry type="library" name="jquery-3.5.1.slim" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="module" module-name="r401-bookmarks-api" />
     <orderEntry type="module" module-name="r401-bookmarks-api" />
     <orderEntry type="module" module-name="sae4-01-front" />
