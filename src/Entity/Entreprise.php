@@ -65,11 +65,11 @@ class Entreprise
     private ?string $adresse = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_detail', 'Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_detail', 'Entreprise_write'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 128)]
-    #[Groups(['Entreprise_detail', 'Entreprise_write'])]
+    #[Groups(['Entreprise_read', 'Entreprise_detail', 'Entreprise_write'])]
     private ?string $siteWeb = null;
 
     #[ORM\Column(length: 255)]
