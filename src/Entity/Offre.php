@@ -19,11 +19,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 #[ApiFilter(OrderFilter::class, properties: ['nomOffre', 'jourDeb', 'level', 'lieux'], arguments: ['orderParameterName' => 'order'])]
-#[ApiFilter(SearchFilter::class, properties: ['nomOffre' => 'partial', 'lieux' => 'partial','level' => 'partial','Type.name'=> 'partial', 'skillDemanders.skill.libelle' => 'partial'])]
+#[ApiFilter(SearchFilter::class, properties: ['nomOffre' => 'partial', 'lieux' => 'partial','level' => 'partial','Type.name'=> 'partial', 'skillDemanders.skill.id' => 'exact', 'Type.id' => 'exact'])]
 #[ApiFilter(NumericFilter::class, properties: ['duree' => 'partial'])]
+#[ApiFilter(DateFilter::class, properties: ['jourDeb'])]
 #[ApiResource (operations: [
         new Get(
             uriTemplate: '/offres/{id}',
