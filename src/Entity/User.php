@@ -123,7 +123,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user_read','user_me','user_write'])]
     private ?string $aboutMe = null;
 
-    #[ORM\Column(type: Types::BLOB)]
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Groups(['user_me','user_write'])]
     private $avatar = null;
 
     /**
