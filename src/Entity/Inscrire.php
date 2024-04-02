@@ -54,17 +54,17 @@ class Inscrire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['rating_read'])]
+    #[Groups(['inscrire_read','rating_read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'id')]
-    #[Groups(['inscrire_read'])]
+    #[Groups(['inscrire_read', 'inscrire_write'])]
     private ?Offre $Offre = null;
 
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'id')]
-    #[Groups(['inscrire_read'])]
+    #[Groups(['inscrire_read', 'inscrire_write'])]
     private ?User $User = null;
 
     #[ORM\Column]
