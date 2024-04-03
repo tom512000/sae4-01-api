@@ -2,44 +2,55 @@
 
 {% block icon %}🔒{% endblock %}
 {% block title %}Connexion{% endblock %}
-{% block background %}{{ asset('img/background.png') }}{% endblock %}
 
 {% block body %}
-    <form class="login_bloc" method="post" id="loginForm">
+    <div class="fordableCard">
+        <div class="fordableCard_content">
+            <form method="post" id="loginForm">
 
-        {# Affichage d'une erreur si l'email ou le mot de passe est érroné #}
-        {% if error %}
-            <script>
-                $(document).ready(function() {
-                    $('#errorModal').modal('show');
-                });
-            </script>
-        {% endif %}
+                {# Affichage d'une erreur si l'email ou le mot de passe est érroné #}
+                {% if error %}
+                    <script>
+                        $(document).ready(function() {
+                            $('#errorModal').modal('show');
+                        });
+                    </script>
+                {% endif %}
 
-        {# Affichage si l'utilisateur est déjà connecté #}
-        {% if app.user %}
-            <script>
-                $(document).ready(function() {
-                    $('#loggedInModal').modal('show');
-                });
-            </script>
-        {% endif %}
+                {# Affichage si l'utilisateur est déjà connecté #}
+                {% if app.user %}
+                    <script>
+                        $(document).ready(function() {
+                            $('#loggedInModal').modal('show');
+                        });
+                    </script>
+                {% endif %}
 
+                <h2>Connexion</h2>
 
-        <div class="login_form">
-            <h1 class="h3 mb-3 font-weight-normal">CONNEXION</h1>
+                <div class="fordableCard_input">
+                    <input type="email" value="{{ last_username }}" placeholder="Email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                </div>
+                <div class="fordableCard_input">
+                    <input type="password" placeholder="Mot de passe" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
 
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <div class="fordableCard_link">
+                    <div>
+                        <input type="checkbox" id="connected" />
+                        <label for="connected">Rester connecté ?</label>
+                    </div>
+                    <p>
+                        <a href="http://localhost:5173/inscription">Pas de compte ?</a>
+                    </p>
+                </div>
 
-            <label for="inputPassword">Mot de passe</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit">SE CONNECTER</button>
+                <input type="submit" class="button" value="SE CONNECTER" />
+            </form>
         </div>
-    </form>
+    </div>
 
     <!-- Fenêtre d'erreur -->
     <div class="modal" tabindex="-1" id="errorModal">
