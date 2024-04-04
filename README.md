@@ -1,4 +1,4 @@
-# SAE3-01 : Développement d'une application
+# SAE 4-01 | Back
 
 ## 💼 Sujet
 Gestion des stages et alternances d'une formation : Cette application sera utilisée par des étudiants et des administrateurs. Il s'agit de gérer pour chaque proposition de sujet de stage ou d'alternance, les informations nécessaires telles que le lieu, les technologies (tags) et l'entreprise. L'application doit par ailleurs gérer l'inscription des étudiants intéressés à un stage ou une alternance. Les étudiants peuvent consulter la liste des stages ou alternances compléte ou la liste de stages ou alternances sélectionnés. Les administrateurs peuvent consulter la liste des étudiants intéressés par un stage ou une alternance et ils gérent la liste des des stages ou alternances pourvus.
@@ -7,19 +7,17 @@ Gestion des stages et alternances d'une formation : Cette application sera utili
 - 👤 Valentin CLADEL - <span style="color: purple">clad0006</span>
 - 👤 Baptiste SIMON - <span style="color: purple">simo0170</span>
 - 👤 Tom SIKORA - <span style="color: purple">siko0001</span>
-- 👤 Camille BOURGA - <span style="color: purple">bour0087</span>
 
 ## 📝 Notes
-- Identifiant : `pc-client-sae3-01`
+- Identifiant : `pc-client-sae4-01`
 - Mot de passe : `pc-client`
-- Adresse IP : `10.31.33.47`
-- PassPhrase : `pc-client`
-- Site : http://10.31.33.47/
+- Adresse IP : `10.31.33.97`
+- Site : http://10.31.33.97:8080/
 
 ## 🛠 Installation et Configuration
 ### *<span style="color: orange">1. Installation</span>*
 Mettre à jour votre dépôt local :
-- `git clone https://iut-info.univ-reims.fr/gitlab/clad0006/sae3-01.git`
+- `git clone https://iut-info.univ-reims.fr/gitlab/clad0006/sae-4-01-api.git`
 - `cd <dépôt_local>`
 - `git pull`
 
@@ -43,7 +41,7 @@ Pour lancer le site, assurez-vous d'être <span style="color: red">connecté au 
 Ensuite, lancez le serveur de test avec la commande suivante :
 - `composer start`
 
-Accédez à l'url du site : <span style="color: red">http://localhost:8000</span>.
+Accédez à l'url du site : https://127.0.0.1:8000/api.
 Tant que vous ne vous connectez pas, vous ne pourrez accéder qu'à la page d'accueil.
 Si vous tentez de naviguer sur une autre page, vous serez automatiquement redirigé vers <span style="color: red">le formulaire de connexion</span>.
 
@@ -68,7 +66,7 @@ Une fois connecté, vous avez accès au site et vous pouvez consulter :
 - La page de profil
 - La page de modification du profil
 - La page de supression du profil
-- La page d'inscriptions
+- La page d'inscription
 - Le tableau de bord (si vous êtes administrateur)
 - La page à propos de nous
 - La page des conditions générales d'utilisation
@@ -93,7 +91,7 @@ Pour accéder à la page d'accueil depuis une autre page, il suffit de cliquer s
 3. Ajout d'une nouvelle machine virtuelle.
 4. Choix du modèle "template".
 5. Sélection du modèle "TP Install Ubuntu".
-6. Saisie du nom de la machine "VM-SAE3-01" avec une taille de disque dur de 25GB.
+6. Saisie du nom de la machine "VM-SAE4-01" avec une taille de disque dur de 25GB.
 7. Le second lecteur de notre machine virtuelle permet de selectionner la taille de l'image ISO du DVD de Fedora.
 8. Le bouton "Create" permer de créer et lancer le déploiement de la machine virtuelle.
 9. Le voyant orange montre que la machine virtuelle est en cours de déploiement, selection du nom de la machine virtuelle.
@@ -107,10 +105,10 @@ Pour accéder à la page d'accueil depuis une autre page, il suffit de cliquer s
 ### 2) Utilisation de « Remote Viewer » pour accéder à votre machine virtuelle OpenNebula
 1. Téléchargement de la machine vituelle.
 2. Lancement de la machine virtuelle en format **.vv**
-   - Soit en double-cliquant sur le fichier "VM-SAE3-01.vv".
+   - Soit en double-cliquant sur le fichier "VM-SAE4-01.vv".
    - Soit dans un terminal avec la commande :
 ```bash
-$ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE3-01.vv
+$ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE4-01.vv
 ```
 
 ### 3) Installation d'une distribution Xubuntu
@@ -132,8 +130,8 @@ $ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE3-01.vv
 6. Choix de notre fuseau horaire à Paris.
 7. Renseignement des informations de l'utilisateur de notre système :
    - Nom : pcclientsae301-KVM
-   - Nom de notre ordinateur : pc-client-sae3-01
-   - Nom d'utilisateur : pc-client-sae3-01
+   - Nom de notre ordinateur : pc-client-sae4-01
+   - Nom d'utilisateur : pc-client-sae4-01
    - Mot de passe : pc-client
 8. Démarrage de l'installation.
 9. Sélection de "Redémarrer maintenant".
@@ -158,15 +156,16 @@ $ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE3-01.vv
 5. Vérification du bon fonctionnement du serveur Web (http://localhost/).
 6. `sudo a2enmod userdir` : Activation des pages d'accueil des utilisateurs à l'aide du module userdir.
 7. `sudo service apache2 restart` : Redémarrage du service apache2.
-8. `git clone https://iut-info.univ-reims.fr/gitlab/clad0006/sae3-01.git` : Clonage du dépôt git de notre projet dans le répertoire d'accueil de l'utilisateur.
-9. `composer install` : Installation de composer pour notre projet.
-10. `sudo touch ~/sae3-01/.env.local` : Création du fichier de connexion à la base de données.
-11. `sudo evim ~/sae3-01/.env.local` : Ajout de la ligne `DATABASE_URL="mysql://clad0006:clad0006@mysql:3306/clad0006_sae3?serverVersion=mariadb-10.2.25&charset=utf8"`.
-12. `sudo chown www-data:www-data ~/sae3-01` : Attribution des droits d'accès à l'utilisateur du serveur Web www-data pour le répertoire sae3-01.
-13. `sudo chmod 755 ~/sae3-01` : Affectation des droits par défaut pour le répertoire sae3-01.
-14. `sudo ln -s $HOME/sae3-01 /var/www` : Création d'un lien symbolique de notre projet vers l'arborescence /var/www.
-15. `nslookup 10.31.33.47` : Récupération du nom DNS de notre machine virtuelle.
-16. `sudo evim /etc/hosts` : Modification du fichier /etc/hosts.
+8. `mkdir sae4-01` : Création du répertoire qui va contenir le front et le back.
+9. `git clone https://iut-info.univ-reims.fr/gitlab/clad0006/sae-4-01-api.git` : Clonage du dépôt git de notre projet dans le répertoire d'accueil de l'utilisateur.
+10. `composer install` : Installation de composer pour notre projet.
+11. `sudo touch ~/sae4-01/sae-4-01-api/.env.local` : Création du fichier de connexion à la base de données.
+12. `sudo evim ~/sae4-01/sae-4-01-api/.env.local` : Ajout de la ligne `DATABASE_URL="mysql://clad0006:clad0006@mysql:3306/clad0006_sae3?serverVersion=mariadb-10.2.25&charset=utf8"`.
+13. `sudo chown www-data:www-data ~/sae4-01/sae-4-01-api/` : Attribution des droits d'accès à l'utilisateur du serveur Web www-data pour le répertoire sae-4-01-api.
+14. `sudo chmod 755 ~/sae4-01/sae-4-01-api/` : Affectation des droits par défaut pour le répertoire sae-4-01-api.
+15. `sudo ln -s $HOME/sae4-01/sae-4-01-api/ /var/www` : Création d'un lien symbolique de notre projet vers l'arborescence /var/www.
+16. `nslookup 10.31.33.47` : Récupération du nom DNS de notre machine virtuelle.
+17. `sudo evim /etc/hosts` : Modification du fichier /etc/hosts.
     ```bash
     127.0.0.1    localhost
     127.0.0.1    2A4V3-31UVM0303.ad-urca.univ-reims.fr
@@ -178,18 +177,18 @@ $ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE3-01.vv
     ff02::1 ip6-allnodes
     ff02::2 ip6-allrouters
     ```
-17. `sudo touch /etc/apache2/sites-available/pc-client-sae3-01.conf` : Création du fichier de configuration du serveur.
-18. `sudo evim /etc/apache2/sites-available/pc-client-sae3-01.conf` : Modification du fichier de configuration pc-client-sae3-01.conf.
+18. `sudo touch /etc/apache2/sites-available/pc-client-sae4-01.conf` : Création du fichier de configuration du serveur.
+19. `sudo evim /etc/apache2/sites-available/pc-client-sae4-01.conf` : Modification du fichier de configuration pc-client-sae4-01.conf.
     ```bash
     <VirtualHost *:80>
         ServerName http://2A4V3-31UVM0303.ad-urca.univ-reims.fr
             ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/sae3-01/public
+        DocumentRoot /var/www/sae4-01/sae-4-01-api/public
     
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
     
-        <Directory /var/www/sae3-01>
+        <Directory /var/www/sae4-01/sae-4-01-api>
             Options FollowSymLinks MultiViews
                     AllowOverride None
                     Order allow,deny
@@ -197,33 +196,17 @@ $ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE3-01.vv
             </Directory>
     </VirtualHost>
     ```
-19. `sudo a2ensite /etc/apache2/sites-available/pc-client-sae3-01.conf` : Activation du site.
-20. `sudo evim /etc/apache2/sites-available/000-default.conf` : Modification du fichier de configuration par défaut.
-    ```bash
-        <VirtualHost *:80>
-            ServerAdmin webmaster@localhost
-            DocumentRoot /var/www/html
-        
-            <Directory /var/www/html>
-                    Options FollowSymLinks
-                    AllowOverride None
-                    Require all granted
-            </Directory>
-        
-            ErrorLog ${APACHE_LOG_DIR}/error.log
-            CustomLog ${APACHE_LOG_DIR}/access.log combined
-    </VirtualHost>
-    ```
+20. `sudo a2ensite /etc/apache2/sites-available/pc-client-sae4-01.conf` : Activation du site.
 21. `sudo touch /etc/apache2/conf-available/serveur.conf` : Création d'un fichier de configuration du serveur.
 22. `sudo evim /etc/apache2/conf-available/serveur.conf` : Modification du fichier de configuration du serveur.
     ```bash
-    <Directory /var/www/sae3-01/public>
+    <Directory /var/www/sae4-01/sae-4-01-api/public>
         Options Indexes FollowSymLinks
         AllowOverride None
-        DirectoryIndex /sae3-01/index.php
-        FallbackResource /sae3-01/index.php
+        DirectoryIndex /sae4-01/sae-4-01-api/index.php
+        FallbackResource /sae4-01/sae-4-01-api/index.php
     </Directory>
-    Alias "/sae3-01" "/var/www/sae3-01/public"
+    Alias "/sae4-01/sae-4-01-api" "/var/www/sae4-01/sae-4-01-api/public"
     ```
 23. `sudo a2enconf /etc/apache2/conf-available/serveur.conf` : Activation de la configuration.
 24. `sudo apache2ctl configtest` : Vérification des configurations "Syntax OK".
@@ -241,50 +224,4 @@ $ remote-viewer repertoire/ou/est/rangé/le/fichier/VM-SAE3-01.vv
     # </IfModule>
     ```
 4. `sudo service apache2 restart` : Redémarrage du serveur.
-5. Vérification de l'accès à la page du site (http://10.31.33.47).
-
-## 🔗 Connexion SSH avec une clé publique
-### 1) Génération d'un couple de clés publique/privée
-1. `ssh-keygen -t rsa` : Génération de notre couple de clés sur l'ordinateur client.
-2. `ls ~/.ssh/` : Observer les fichiers générés.
-3. `la -l ~/.ssh/` : Vérifier les droits de la clé privée.
-4. `setfacl -Rb ~/.ssh` : Changement des droits si la clé est accessible par d'autres utilisateurs.
-
-### 2) Ajouter une clé publique dans la configuration de OpenNebula
-1. Rendez-vous sur http://cloud/ et connexion avec notre compte universitaire.
-2. Localiser le menu permettant d'accéder à mes préférences.
-3. Cliquer sur le menu d'ajout d'une clé SSH publique.
-4. Copie de la clé publique dans le fichier *~/.ssh/id_rsa.pub* et coller dans le champ dédié de l'interface d'OpenNebula.
-5. Validation de notre saisie en appuyant sur « Add SSH Key ».
-
-### 3) Déployer une machine virtuelle OpenNebula
-1. Localisation du bouton d'ajout d'une machine virtuelle sur le tableau de bord d'OpenNebula.
-2. Observer les modèles disponibles.
-3. Trouver le modèle correspondant à votre choix, « Ubuntu Minimal 22.04 » est donné à titre d'exemple.
-4. Donner un nom explicite à notre machine virtuelle et fixer la taille de son disque dur puis valider à l'aide du bouton « Create ».
-5. Déploiement de notre machine virtuelle (indicateur orange).
-6. Repérer l'adresse IP de votre machine virtuelle dans les détails de ses statistiques.
-
-### 4) Connexion SSH à la machine virtuelle grâce à la clé
-1. `ssh root@10.31.33.47` : Connexion à la machine virtuelle.
-2. `ls -l .ssh/` : Vérification de la configuration SSH de l'utilisateur root.
-3. `cat .ssh/authorized_keys` : Vérification que la clé publique générée dans l'interface de OpenNebula fait bien partie des clés autorisées.
-
-### 5) Ajout d'une nouvelle clé SSH publique sur la machine distante
-1. Ouverture du shell sur notre machine locale.
-2. Génération d'un nouveau couple de clés dans le répertoire Documents.
-3. `ssh-copy-id -i ~/Documents/id_rsa.pub root@10.31.33.47` : Enregistrer notre nouvelle clé publique sur la machine distante.
-4. `ssh root@10.31.33.47` : Connexion sur la machine distante pour vérifier que notre nouvelle clé publique est bien présente.
-5. `cat .ssh/authorized_keys` : Vérification des clés autorisées.
-6. Copier les nouvelles clés publique et privée sur une clé USB et supression des clés de notre compte.
-7. Placer les fichiers id_rsa et id_rsa.pub de la clé USB dans le répertoire .ssh de notre compte Linux local.
-8. Utilisation du VPN pour accéder au cloud OpenNebula.
-
-## 📋 Autres
-Les fichiers suivants sont disponibles dans le dossier « files » :
-1. Cahier des charges au format PDF.
-2. Présentation de notre base de données au format PDF.
-3. Rapport d'analyse et de conception au format PDF.
-4. PowerPoint de l'oral du projet au format PPTX.
-5. Démonstration du site au format MP4.
-6. Fichier d'accès à la VM au format VV.
+5. Vérification de l'accès à la page du site (http://10.31.33.97).
