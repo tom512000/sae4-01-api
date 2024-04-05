@@ -27,6 +27,12 @@ class UserFixtures extends Fixture
             'email' => 'tom.sikora03@gmail.com',
             'roles' => ['ROLE_ADMIN'],
         ]);
+        UserFactory::createOne([
+            'lastName' => 'Baptiste',
+            'firstName' => 'Simon',
+            'email' => 'b.simon51150@gmail.com',
+            'roles' => ['ROLE_ADMIN'],
+        ]);
         UserFactory::createMany(40);
     }
 }
