@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: "object == user",
         ),
         new Post(
-            uriTemplate: '/users',
+            uriTemplate: '/usersInscription',
             normalizationContext: ['groups'=>['user_read']],
             denormalizationContext: ['groups'=>['user_write']],
         ),
@@ -88,9 +88,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20)]
     #[Groups(['user_read','user_me','user_write'])]
     private string $phone;
-
-    #[ORM\Column]
-    private int $status;
 
     #[ORM\Column(type: 'date', length: 10)]
     #[Groups(['user_read','user_me','user_write'])]
@@ -210,22 +207,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(string $phone): void
     {
         $this->phone = $phone;
-    }
-
-    /**
-     * Obtient le statut de l'utilisateur.
-     */
-    public function getStatus(): int
-    {
-        return $this->status;
-    }
-
-    /**
-     * Définit le statut de l'utilisateur.
-     */
-    public function setStatus(int $status): void
-    {
-        $this->status = $status;
     }
 
     /**

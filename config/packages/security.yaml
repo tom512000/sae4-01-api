@@ -44,6 +44,7 @@ security:
         - { path: ^/api/skills-offre$, roles: PUBLIC_ACCESS }
         - { path: ^/api/skills-offre/\d+$, roles: PUBLIC_ACCESS }
         - { path: ^/api/types$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/usersInscription$, roles: PUBLIC_ACCESS }
         - { path: ^/api/types/\d+$, roles: PUBLIC_ACCESS }
         - { path: ^/api/users/\d+$, roles: ROLE_ADMIN }
         - { path: ^/api/users$, roles: ROLE_ADMIN }
